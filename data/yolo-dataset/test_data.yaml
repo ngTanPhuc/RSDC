@@ -1,6 +1,0 @@
-names:
-- rice_seedling
-nc: 1
-path: /kaggle/working/datasets
-train: images/train
-val: images/test
