@@ -7,6 +7,7 @@ import os
 from configs.paths import EXPERIMENTS_DIR
 from src.rsdc.training.train_yolo26m import train_yolo26m
 from src.rsdc.evaluation.evaluate_counting import evaluate_counting_yolo
+from configs.yolo_hyperparams import hyperparams
 
 
 def main():
