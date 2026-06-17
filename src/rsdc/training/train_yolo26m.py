@@ -14,15 +14,6 @@ def train_yolo26m(data_yaml_file: str):
     # Login to wandb
     wandb.login(key=wandb_api)
 
-    # Set up wandb run
-    # os.environ["WANDB_PROJECT"] = hyperparams["project"]
-    # os.environ["WANDB_NAME"] = hyperparams["name"]
-    wandb.init(
-        project=hyperparams["project"],
-        name=hyperparams["name"],
-        config=hyperparams
-    )
-
 
     # ===============================
     # TRAINING
