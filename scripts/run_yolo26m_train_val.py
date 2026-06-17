@@ -25,7 +25,7 @@ def main():
     args = parser.parse_args()
 
     # 4. Dynamically locate the dataset YAML and output directory
-    data_yaml_path = str(Path("../configs/yolo_train_file.yaml"))
+    data_yaml_path = "configs/yolo_train_file.yaml"
     project_output_dir = EXPERIMENTS_DIR / f"{args.output_dir}"
 
     print(f"[INFO] Using dataset config: {data_yaml_path}")
@@ -39,7 +39,7 @@ def main():
     model = train_yolo26m(data_yaml_path)
 
     # 7. Evaluate the model with the test dataset
-    metrics = model.val(data="/kaggle/working/datasets/test_data.yaml")
+    metrics = model.val(data="configs/yolo_test_file.yaml")
     print("\n" + "=" * 40)
     print("FINAL TEST RESULTS")
     print("=" * 40)
