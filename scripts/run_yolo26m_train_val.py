@@ -2,6 +2,7 @@
 import argparse
 from pathlib import Path
 import wandb
+import os
 
 from configs.paths import EXPERIMENTS_DIR
 from src.rsdc.training.train_yolo26m import train_yolo26m
@@ -31,8 +32,13 @@ def main():
     print(f"[INFO] Using dataset config: {data_yaml_path}")
     print(f"[INFO] Saving results to: {project_output_dir}")
 
-    # 5. Initialize Model
-    print("[INFO] Loading YOLO model...")
+    # 5. Initialize wandb
+    wandb.login(key=os.getenv("WANDB_API_KEY"))
+    wandb.init(
+        project=hyperparams["project"],
+        name=hyperparams["name"],
+        config=hyperparams
+    )
 
     # 6. Train
     print("[INFO] Starting training...")
