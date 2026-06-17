@@ -7,15 +7,6 @@ from src.rsdc.utils.yolo_utils import save_checkpoint_to_wandb
 
 def train_yolo26m(data_yaml_file: str):
     # ===============================
-    # WANDB
-    # ===============================
-    wandb_api =os.getenv("WANDB_API_KEY")
-
-    # Login to wandb
-    wandb.login(key=wandb_api)
-
-
-    # ===============================
     # TRAINING
     # ===============================
     model = YOLO("yolo26m.pt")  # load the pretrained
