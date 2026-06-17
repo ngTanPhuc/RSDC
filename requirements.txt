@@ -1,0 +1,7 @@
+ultralytics
+rasterio
+tqdm
+pillow
+numpy
+wandb
+scikit-learn
