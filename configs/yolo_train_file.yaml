@@ -1,5 +1,6 @@
-"path": "../data/processed/yolo_dataset",
-"train": "images/train",
-"val": "images/val",
-"nc": 1,
-"names": ["rice_seedling"]
+path: ../data/processed/yolo_dataset
+train: images/train
+val: images/val
+nc: 1
+names:
+  - rice_seedling
