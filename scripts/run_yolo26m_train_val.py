@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 import argparse
 from pathlib import Path
-from ultralytics import YOLO
+import wandb
 
 from configs.paths import EXPERIMENTS_DIR
-from configs.yolo_hyperparams import hyperparams
 from src.rsdc.training.train_yolo26m import train_yolo26m
 from src.rsdc.evaluation.evaluate_counting import evaluate_counting_yolo
 
@@ -50,6 +49,10 @@ def main():
     print("[TEST] Per-image metrics", metrics.box.image_metrics)  # per-image metrics dictionary with precision, recall, F1, TP, FP, and FN
     r2, rmse, mape = evaluate_counting_yolo(metrics)
     print(f"Counting -> R²: {r2:.4f} | RMSE: {rmse:.2f} | MAPE: {mape:.2f}%")
+
+    # 8. Finish wandb run
+    wandb.finish()
+    print("[INFO] W&B Run finished and synced successfully.")
 
 if __name__ == "__main__":
     main()
