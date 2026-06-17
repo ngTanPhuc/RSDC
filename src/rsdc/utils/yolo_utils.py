@@ -1,5 +1,6 @@
 import wandb
 from pathlib import Path
+from configs.yolo_hyperparams import hyperparams
 
 def save_checkpoint_to_wandb(trainer):
     rank = getattr(trainer, "rank", -1)
@@ -11,7 +12,7 @@ def save_checkpoint_to_wandb(trainer):
     print(f"✅ [W&B] on_fit_epoch_end at epoch {epoch_num}, rank={rank}")
 
     artifact = wandb.Artifact(
-        name="face_detection_B_epoch_ckpts",
+        name=hyperparams["name"],
         type="model",
         metadata={"epoch": epoch_num}
     )
