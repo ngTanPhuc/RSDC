@@ -1,6 +1,6 @@
 import wandb
 from pathlib import Path
-from configs.yolo_hyperparams import hyperparams
+
 
 def save_checkpoint_to_wandb(trainer):
     rank = getattr(trainer, "rank", -1)
@@ -11,34 +11,16 @@ def save_checkpoint_to_wandb(trainer):
 
     print(f"✅ [W&B] on_fit_epoch_end at epoch {epoch_num}, rank={rank}")
 
-    artifact = wandb.Artifact(
-        name=hyperparams["name"],
-        type="model",
-        metadata={"epoch": epoch_num}
-    )
 
     last_path = Path(trainer.last)
     best_path = Path(trainer.best)
 
-    print(f"✅ [W&B] last exists: {last_path.exists()} -> {last_path}")
-    print(f"✅ [W&B] best exists: {best_path.exists()} -> {best_path}")
+    # Use wandb.save() to sync files to the cloud live.
+    # This overwrites the previous epoch's weights, preventing storage bloat!
+    if wandb.run is not None:
+        if last_path.exists():
+            wandb.save(str(last_path), base_path=str(last_path.parent))
+        if best_path.exists():
+            wandb.save(str(best_path), base_path=str(best_path.parent))
 
-    added = 0
-
-    if last_path.exists():
-        artifact.add_file(str(last_path), name=f"last_epoch_{epoch_num}.pt")
-        print("✅ added last.pt")
-        added += 1
-
-    if best_path.exists():
-        artifact.add_file(str(best_path), name=f"best_epoch_{epoch_num}.pt")
-        print("✅ added best.pt")
-        added += 1
-
-    print(f"✅ files added = {added}")
-
-    if added > 0 and wandb.run is not None:
-        wandb.run.log_artifact(artifact)
-        print("✅ artifact logged")
-    else:
-        print("❌ no files added, skip log_artifact")
+    print(f"✅ [W&B] Cloud backup live-synced at epoch {epoch_num}")
