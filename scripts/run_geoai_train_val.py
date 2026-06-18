@@ -51,8 +51,8 @@ def main():
     print(f"[INFO] Saving results to: {project_output_dir}")
 
     # 5. Define the base model and set up the hyperparams
-    hyperparams["name"] = "RSDC-MaskRCNN" if args.base_mode == "maskrcnn" else "RSDC-FasterRCNN_resnet50"
-    hyperparams["model_name"] = "maskrcnn_resnet50_fpn" if args.base_mode == "maskrcnn" else "fasterrcnn_resnet50_fpn_v2"
+    hyperparams["name"] = "RSDC-MaskRCNN" if args.base_model == "maskrcnn" else "RSDC-FasterRCNN_resnet50"
+    hyperparams["model_name"] = "maskrcnn_resnet50_fpn" if args.base_model == "maskrcnn" else "fasterrcnn_resnet50_fpn_v2"
     hyperparams["num_epochs"] = args.epochs
 
     # 6. Initialize wandb
