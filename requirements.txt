@@ -6,4 +6,4 @@ numpy
 wandb
 scikit-learn
 geopandas
-geoai
+geoai-py
