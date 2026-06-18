@@ -53,7 +53,7 @@ def main():
 
     # 7. Train
     print("[INFO] Starting training...")
-    model = train_yolo26m(data_yaml_path)
+    model = train_yolo26m(data_yaml_path, project_output_dir)
 
     # 8. Evaluate the model with the test dataset
     metrics = model.val(data="configs/yolo_test_file.yaml")

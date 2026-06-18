@@ -5,7 +5,7 @@ from configs.yolo_hyperparams import hyperparams
 from src.rsdc.utils.yolo_utils import save_checkpoint_to_wandb
 
 
-def train_yolo26m(data_yaml_file: str):
+def train_yolo26m(data_yaml_file: str, output_dir: str):
     # ===============================
     # TRAINING
     # ===============================
@@ -34,7 +34,7 @@ def train_yolo26m(data_yaml_file: str):
         close_mosaic=10,
         shear=5,
         name=hyperparams["name"],
-        project=hyperparams["project"],
+        project=output_dir,
         device=0,
         save=True,
         save_period=-1
