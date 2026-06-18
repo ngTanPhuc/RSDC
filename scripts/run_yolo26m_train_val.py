@@ -23,6 +23,13 @@ def main():
         help="Output directory for this training run"
     )
 
+    parser.add_argument(
+        "-e", "--epochs",
+        type=int,
+        default=150,
+        help="Number of training epochs. (Default: 150)"
+    )
+
     # 3. Parse the arguments
     args = parser.parse_args()
 
@@ -33,7 +40,10 @@ def main():
     print(f"[INFO] Using dataset config: {data_yaml_path}")
     print(f"[INFO] Saving results to: {project_output_dir}")
 
-    # 5. Initialize wandb
+    # 5. Set up the hyperparams
+    hyperparams["num_epochs"] = args.epochs
+
+    # 6. Initialize wandb
     wandb.login(key=os.getenv("WANDB_API_KEY"))
     wandb.init(
         project=hyperparams["project"],
@@ -41,11 +51,11 @@ def main():
         config=hyperparams
     )
 
-    # 6. Train
+    # 7. Train
     print("[INFO] Starting training...")
     model = train_yolo26m(data_yaml_path)
 
-    # 7. Evaluate the model with the test dataset
+    # 8. Evaluate the model with the test dataset
     metrics = model.val(data="configs/yolo_test_file.yaml")
     print("\n" + "=" * 40)
     print("FINAL TEST RESULTS")
@@ -57,7 +67,7 @@ def main():
     r2, rmse, mape = evaluate_counting_yolo(metrics)
     print(f"Counting -> R²: {r2:.4f} | RMSE: {rmse:.2f} | MAPE: {mape:.2f}%")
 
-    # 8. Finish wandb run
+    # 9. Finish wandb run
     wandb.finish()
     print("[INFO] W&B Run finished and synced successfully.")
 

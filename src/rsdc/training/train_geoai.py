@@ -1,5 +1,5 @@
 import geoai
-from configs.fasterrcnn_hyperparams import hyperparams
+from configs.geoai_hyperparams import hyperparams
 from configs.paths import *
 
 

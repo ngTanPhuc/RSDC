@@ -35,6 +35,13 @@ def main():
         help="Choose 1 of 2 base models: maskrcnn or fasterrcnn"
     )
 
+    parser.add_argument(
+        "-e", "--epochs",
+        type=int,
+        default=150,
+        help="Number of training epochs. (Default: 150)"
+    )
+
     # 3. Parse the arguments
     args = parser.parse_args()
 
@@ -46,8 +53,9 @@ def main():
     # 5. Define the base model and set up the hyperparams
     hyperparams["name"] = "RSDC-MaskRCNN" if args.base_mode == "maskrcnn" else "RSDC-FasterRCNN_resnet50"
     hyperparams["model_name"] = "maskrcnn_resnet50_fpn" if args.base_mode == "maskrcnn" else "fasterrcnn_resnet50_fpn_v2"
+    hyperparams["num_epochs"] = args.epochs
 
-    # 5. Initialize wandb
+    # 6. Initialize wandb
     wandb.login(key=os.getenv("WANDB_API_KEY"))
     wandb.init(
         project=hyperparams["project"],
@@ -55,14 +63,14 @@ def main():
         config=hyperparams
     )
 
-    # 6. Define the wandb patch
+    # 7. Define the wandb patch
     wandb_patch(project_output_dir)
 
-    # 6. Train
+    # 8. Train
     print("[INFO] Starting training...")
     train_geoai(project_output_dir)
 
-    # 7. Evaluate the model with the test dataset
+    # 9. Evaluate the model with the test dataset
     device = torch.device("cuda" if torch.cuda.is_available else "cpu")
     model_path = project_output_dir / "models/best_model.pth"
 
@@ -130,7 +138,7 @@ def main():
     r2, rmse, mape = evaluate_counting_geoai(model, test_loader)
     print(f"Counting -> R2: {r2:.4f} | RMSE: {rmse:.2f} | MAPE: {mape:.2f}%")
 
-    # 8. Finish wandb run
+    # 10. Finish wandb run
     wandb.finish()
 
 
