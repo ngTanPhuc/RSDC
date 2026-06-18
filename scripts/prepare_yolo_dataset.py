@@ -83,36 +83,6 @@ def clip_box_2_tile(bbox: list, tile_x, tile_y, tile_size):
 # MAIN
 # ================================
 def main():
-    # # 1. Initialize the parser
-    # parser = argparse.ArgumentParser(
-    #     description="A script to convert raw dataset to YOLO ready dataset"
-    # )
-    #
-    # # 2. Add require arguments (no dashes, no default value)
-    # # parser.add_argument(
-    # #     "someargwithnodash",
-    # #     type=str,
-    # #     help="Something something something"
-    # # )
-    #
-    # # 2. Add optional arguments (with dashes, has default value)
-    # parser.add_argument(
-    #     "-o", "--output_folder",
-    #     type=str,
-    #     default="../data/processed/yolo_dataset",
-    #     help="Output folder"
-    # )
-    #
-    # parser.add_argument(
-    #     "-i", "--input_folder",
-    #     type=str,
-    #     default="../data/raw",
-    #     help="Input folder, must contains annotations and rasters folders"
-    # )
-    #
-    # args = parser.parse_args()
-
-
     tile_metadata = {}  # {tile_id: {transform, crs, window}}
     tile_count = 1
     for img_path in tqdm(list(RASTER_DIR.glob("*.tif"))):
@@ -129,8 +99,6 @@ def main():
                 # Define a window in the src, then create a tile (which is a new .tif file)
                 window = Window(x, y, TILE_SIZE, TILE_SIZE)
                 tile = src.read(window=window, boundless=True, fill_value=0)
-
-                # tile_file = f"{tile_count}.tif"
 
                 # Create train:val:test data from images 1-5:6:7-8
                 split = None
@@ -149,8 +117,7 @@ def main():
                 # Band 3: Blue
                 # Band 4: NIR (Near-Infrared)
                 rgb = tile[[0, 1, 2], :, :].astype(np.float32)  # take the RGB bands only
-                rgb = rgb.astype(np.uint8).transpose(1, 2,
-                                                     0)  # reshape from Channel, Width, Height to Width, Height, Channel
+                rgb = rgb.astype(np.uint8).transpose(1, 2, 0)  # reshape from Channel, Width, Height to Width, Height, Channel
                 rgb_img = Image.fromarray(rgb)  # create an image from an array
                 rgb_img.save(IMG_DIR / split / f"{tile_count}.png")
 
@@ -188,10 +155,6 @@ def main():
                     f.write(f"\n".join(yolo_lines))
 
                 tile_count += 1
-
-    # Save metadata of each tile
-    # with open(VECTOR_DIR / "tile_metadata.json", "w") as f:
-    #     json.dump(tile_metadata, f, indent=2)
 
     print(f"✅ Tiling completed! Dataset saved at: {YOLO_DATASET_DIR}")
 
