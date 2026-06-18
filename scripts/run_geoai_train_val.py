@@ -31,7 +31,7 @@ def main():
     parser.add_argument(
         "base_model",
         type=str,
-        choices=["maskrcnn, fasterrcnn"],
+        choices=["maskrcnn", "fasterrcnn"],
         help="Choose 1 of 2 base models: maskrcnn or fasterrcnn"
     )
 
