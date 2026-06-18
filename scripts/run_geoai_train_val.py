@@ -4,10 +4,10 @@ import argparse
 from torch.utils.data import DataLoader
 
 from configs.paths import *
-from src.rsdc.training.train_fasterrcnn import train_fasterrcnn
+from src.rsdc.training.train_geoai import train_geoai
 import torch
 import geoai.train as gtrain
-from configs.fasterrcnn_hyperparams import hyperparams
+from configs.geoai_hyperparams import hyperparams
 import glob
 from src.rsdc.evaluation.evaluate_counting import evaluate_counting_geoai
 from src.rsdc.utils.geoai_utils import wandb_patch
@@ -28,6 +28,13 @@ def main():
         help="Output directory for this training run"
     )
 
+    parser.add_argument(
+        "base_model",
+        type=str,
+        choices=["maskrcnn, fasterrcnn"],
+        help="Choose 1 of 2 base models: maskrcnn or fasterrcnn"
+    )
+
     # 3. Parse the arguments
     args = parser.parse_args()
 
@@ -35,6 +42,10 @@ def main():
     project_output_dir = EXPERIMENTS_DIR / f"{args.output_dir}"
 
     print(f"[INFO] Saving results to: {project_output_dir}")
+
+    # 5. Define the base model and set up the hyperparams
+    hyperparams["name"] = "RSDC-MaskRCNN" if args.base_mode == "maskrcnn" else "RSDC-FasterRCNN_resnet50"
+    hyperparams["model_name"] = "maskrcnn_resnet50_fpn" if args.base_mode == "maskrcnn" else "fasterrcnn_resnet50_fpn_v2"
 
     # 5. Initialize wandb
     wandb.login(key=os.getenv("WANDB_API_KEY"))
@@ -49,7 +60,7 @@ def main():
 
     # 6. Train
     print("[INFO] Starting training...")
-    train_fasterrcnn(project_output_dir)
+    train_geoai(project_output_dir)
 
     # 7. Evaluate the model with the test dataset
     device = torch.device("cuda" if torch.cuda.is_available else "cpu")
@@ -98,7 +109,7 @@ def main():
         model=model,
         data_loader=test_loader,
         device=device,
-        use_mask_iou=False  # true for Mask R-CNN
+        use_mask_iou=True if args.base_model == "maskrcnn" else False  # true for Mask R-CNN
     )
 
     coco_metrics = gtrain.evaluate_coco_metrics(

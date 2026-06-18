@@ -3,7 +3,7 @@ from configs.fasterrcnn_hyperparams import hyperparams
 from configs.paths import *
 
 
-def train_fasterrcnn(output_dir):
+def train_geoai(output_dir):
     geoai.train_MaskRCNN_model(
         model_name=hyperparams["model_name"],
         images_dir=f"{GEOAI_DATASET_DIR}/train/images",
