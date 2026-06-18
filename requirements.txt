@@ -5,3 +5,5 @@ pillow
 numpy
 wandb
 scikit-learn
+geopandas
+geoai
