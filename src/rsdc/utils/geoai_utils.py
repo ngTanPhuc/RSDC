@@ -55,7 +55,8 @@ def wandb_patch(output_dir):
         wandb.log(log_dict, step=current_epoch)
 
         if wandb.run is not None:
-            best_ckpt_path = os.path.join(output_dir, "best_model.pth")
+            models_dir = os.path.join(output_dir, "models")
+            best_ckpt_path = os.path.join(models_dir, "best_model.pth")
 
             if os.path.exists(best_ckpt_path):
                 # Sync to the cloud, overwriting the previous epoch's file
