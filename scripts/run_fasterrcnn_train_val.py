@@ -7,7 +7,7 @@ from configs.paths import *
 from src.rsdc.training.train_fasterrcnn import train_fasterrcnn
 import torch
 import geoai.train as gtrain
-from configs.yolo_hyperparams import hyperparams
+from configs.fasterrcnn_hyperparams import hyperparams
 import glob
 from src.rsdc.evaluation.evaluate_counting import evaluate_counting_geoai
 from src.rsdc.utils.geoai_utils import wandb_patch
