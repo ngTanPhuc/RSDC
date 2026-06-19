@@ -4,8 +4,12 @@ from configs.paths import *
 
 
 def train_geoai(output_dir):
+    model_name = hyperparams["model_name"]
+
+    print(f"[INFO] Training {model_name}...")
+
     geoai.train_MaskRCNN_model(
-        model_name=hyperparams["model_name"],
+        model_name=model_name,
         images_dir=f"{GEOAI_DATASET_DIR}/train/images",
         labels_dir=f"{GEOAI_DATASET_DIR}/train/labels",
         output_dir=f"{output_dir}/models",

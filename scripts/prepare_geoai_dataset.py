@@ -112,8 +112,8 @@ def main():
             in_raster=raster_path,
             out_folder=TEMP_DIR / name,
             in_class_data=vector_path,
-            tile_size=512,
-            stride=256,
+            tile_size=TILE_SIZE,
+            stride=STRIDE,
             buffer_radius=0,
         )
 
@@ -123,7 +123,10 @@ def main():
         OLD_IMG_DIR = TEMP_DIR / f"{i}" / "images"
         OLD_LABEL_DIR = TEMP_DIR / f"{i}" / "labels"
 
-        for img, label in zip(OLD_IMG_DIR.iterdir(), OLD_LABEL_DIR.iterdir()):
+        for img in sorted(OLD_IMG_DIR.iterdir()):
+            label = OLD_LABEL_DIR / img.name
+            if not label.exists():
+                continue
             new_name = f"tile_{"0" * (6 - len(str(train_val_count)))}{train_val_count}.tif"
             shutil.copy(str(img.resolve()), TRAIN_IMG_DIR / new_name)  # copy image
             shutil.copy(str(label.resolve()), TRAIN_LABEL_DIR / new_name)  # copy label
@@ -137,7 +140,10 @@ def main():
         OLD_IMG_DIR = TEMP_DIR / f"{i}" / "images"
         OLD_LABEL_DIR = TEMP_DIR / f"{i}" / "labels"
 
-        for img, label in zip(OLD_IMG_DIR.iterdir(), OLD_LABEL_DIR.iterdir()):
+        for img in sorted(OLD_IMG_DIR.iterdir()):
+            label = OLD_LABEL_DIR / img.name
+            if not label.exists():
+                continue
             new_name = f"tile_{"0" * (6 - len(str(test_count)))}{test_count}.tif"
             shutil.copy(str(img.resolve()), TEST_IMG_DIR / new_name)  # copy image
             shutil.copy(str(label.resolve()), TEST_LABEL_DIR / new_name)  # copy label
