@@ -42,6 +42,13 @@ def main():
         help="Number of training epochs. (Default: 150)"
     )
 
+    parser.add_argument(
+        "--score-threshold",
+        type=float,
+        default=0.2,
+        help="Confidence threshold for GeoAI counting. (Default: 0.2)"
+    )
+
     # 3. Parse the arguments
     args = parser.parse_args()
 
@@ -135,7 +142,12 @@ def main():
     for k, v in coco_metrics.items():
         print(f"{k:15}: {v:.4f}")
 
-    r2, rmse, mape = evaluate_counting_geoai(model, test_loader)
+    r2, rmse, mape, counting_rows = evaluate_counting_geoai(
+        model,
+        test_loader,
+        score_threshold=args.score_threshold,
+    )
+    print(f"[INFO] Counting uses GeoAI confidence threshold: {args.score_threshold}")
     print(f"Counting -> R2: {r2:.4f} | RMSE: {rmse:.2f} | MAPE: {mape:.2f}%")
 
     # 10. Finish wandb run
