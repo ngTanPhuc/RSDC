@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+kaggle datasets download -d ngtanphuc020505/rice-seedlings-dataset -p data/raw --unzip
