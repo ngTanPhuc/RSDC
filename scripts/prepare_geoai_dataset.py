@@ -127,7 +127,7 @@ def main():
             label = OLD_LABEL_DIR / img.name
             if not label.exists():
                 continue
-            new_name = f"tile_{"0" * (6 - len(str(train_val_count)))}{train_val_count}.tif"
+            new_name = f"tile_{'0' * (6 - len(str(train_val_count)))}{train_val_count}.tif"
             shutil.copy(str(img.resolve()), TRAIN_IMG_DIR / new_name)  # copy image
             shutil.copy(str(label.resolve()), TRAIN_LABEL_DIR / new_name)  # copy label
             train_val_count += 1
@@ -144,7 +144,7 @@ def main():
             label = OLD_LABEL_DIR / img.name
             if not label.exists():
                 continue
-            new_name = f"tile_{"0" * (6 - len(str(test_count)))}{test_count}.tif"
+            new_name = f"tile_{'0' * (6 - len(str(test_count)))}{test_count}.tif"
             shutil.copy(str(img.resolve()), TEST_IMG_DIR / new_name)  # copy image
             shutil.copy(str(label.resolve()), TEST_LABEL_DIR / new_name)  # copy label
             test_count += 1
