@@ -86,7 +86,8 @@ def main():
         model_name=hyperparams["model_name"],
         num_classes=2,
         num_channels=hyperparams["num_channels"],
-        pretrained=False
+        pretrained=False,
+        box_detections_per_img=500
     )
 
     # Load the trained weights
