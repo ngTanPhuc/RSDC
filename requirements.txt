@@ -1,9 +1,9 @@
-ultralytics==8.4.82
+ultralytics
 wandb
-scikit-learn==1.9.0
-pillow==12.2.0
-tqdm==4.68.3
-numpy==2.5.0
-rasterio==1.5.0
-geopandas==1.1.4
-geoai-py==0.39.4
+scikit-learn
+pillow
+tqdm
+numpy
+rasterio
+geopandas
+geoai-py==0.40.1
