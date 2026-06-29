@@ -1,5 +1,5 @@
 ultralytics==8.4.82
-wandb==0.28.0
+wandb
 scikit-learn==1.9.0
 pillow==12.2.0
 tqdm==4.68.3
