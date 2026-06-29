@@ -86,9 +86,11 @@ def main():
         model_name=hyperparams["model_name"],
         num_classes=2,
         num_channels=hyperparams["num_channels"],
-        pretrained=False,
-        box_detections_per_img=500
+        pretrained=False
     )
+
+    # Manually overwrite the PyTorch limit inside the RoI (Regions of Interest) Heads
+    model.roi_heads.detections_per_img = 500
 
     # Load the trained weights
     state_dict = torch.load(model_path, map_location=device)
