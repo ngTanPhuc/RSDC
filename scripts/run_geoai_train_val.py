@@ -43,7 +43,7 @@ def main():
     )
 
     parser.add_argument(
-        "--score-threshold",
+        "--conf",
         type=float,
         default=0.2,
         help="Confidence threshold for GeoAI counting. (Default: 0.2)"
@@ -143,14 +143,14 @@ def main():
     print("=" * 40)
     print(f"IoU: {basic_metrics.get('IoU', 0):.4f}")
     for k, v in coco_metrics.items():
-        print(f"{k:15}: {v:.4f}")
+        print(f"[TEST] {k:15}: {v:.4f}")
 
+    print(f"[INFO] Counting uses GeoAI confidence threshold: {args.score_threshold}")
     r2, rmse, mape, counting_rows = evaluate_counting_geoai(
         model,
         test_loader,
         score_threshold=args.score_threshold,
     )
-    print(f"[INFO] Counting uses GeoAI confidence threshold: {args.score_threshold}")
     print(f"Counting -> R2: {r2:.4f} | RMSE: {rmse:.2f} | MAPE: {mape:.2f}%")
 
     # 10. Finish wandb run

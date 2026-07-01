@@ -68,7 +68,7 @@ def main():
         conf=args.conf,
         iou=0.5,
     )
-    print(f"[INFO] Counting uses YOLO confidence threshold: {args.conf}")
+
     print("\n" + "=" * 40)
     print("FINAL TEST RESULTS")
     print("=" * 40)
@@ -76,6 +76,8 @@ def main():
     print("[TEST] map@50", metrics.box.map50)  # map50
     print("[TEST] map@75", metrics.box.map75)  # map75
     print("[TEST] Per-image metrics", metrics.box.image_metrics)  # per-image metrics dictionary with precision, recall, F1, TP, FP, and FN
+
+    print(f"[INFO] Counting uses YOLO confidence threshold: {args.conf}")
     r2, rmse, mape, counting_rows = evaluate_counting_yolo(metrics)
     print(f"Counting -> R2: {r2:.4f} | RMSE: {rmse:.2f} | MAPE: {mape:.2f}%")
 
