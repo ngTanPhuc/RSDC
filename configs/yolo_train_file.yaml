@@ -1,4 +1,4 @@
-path: ../data/processed/yolo_dataset
+path: data/processed/yolo_dataset
 train: images/train
 val: images/val
 nc: 1
